@@ -2,17 +2,17 @@ import {Request, Response} from 'express';
 import { HttpStatus } from '../types/httpStatus';
 import asyncHandler from "express-async-handler";
 
-// import authHelper from "../helper/authHelper";
+import authHelper from "../helper/authHelper";
 
-// const authentication = authHelper();
+const authentication = authHelper();
 
 const authControl = ()=>{
    const userSignup = asyncHandler(async (req:Request,res:Response)=>{
-    console.log(req.url)
+    const result = await authentication.userRegister(req.body)
     console.log('api hit authController')
     res.status(HttpStatus.OK).send({
      status: HttpStatus.OK,
-     userToken: 'hfkhw8ihewfwsdfwhsiofhwisfh',
+     userToken: result,
    });
    });
 

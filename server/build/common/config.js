@@ -7,9 +7,9 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const ConfigKeys = {
     PORT: process.env.PORT,
-    // MONGODB_URL: process.env.MONGODB_URL as string,
-    // DB_NAME: process.env.DB_NAME,
-    // JWT_SECRET: process.env.JWT_SECRET as string,
+    MONGODB_URL: process.env.MONGODB_URL,
+    DB_NAME: process.env.DB_NAME,
+    JWT_SECRET: process.env.JWT_SECRET,
     // AWS_REGION: process.env.AWS_REGION as string,
     // AWS_SECRET_KEY: process.env.AWS_SECRET_KEY as string,
     // AWS_ACCESS_KEY_ID : process.env.AWS_ACCESS_KEY_ID as string,

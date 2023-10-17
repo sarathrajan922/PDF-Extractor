@@ -10,6 +10,6 @@ const authRouter = express.Router();
 const controller = authControl();
 
 // Define a route for user registration, mapped to the 'userSignup' function in the controller.
-authRouter.get("/register", controller.userSignup);
+authRouter.post("/register", controller.userSignup);
 
 export default authRouter;
