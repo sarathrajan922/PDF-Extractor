@@ -8,8 +8,9 @@ const http_1 = __importDefault(require("http"));
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const errorHandleMiddleware_1 = __importDefault(require("./middleware/errorHandleMiddleware"));
-const app = (0, express_1.default)();
 const config_1 = __importDefault(require("./common/config"));
+const routerIndex_1 = __importDefault(require("./routes/routerIndex"));
+const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, morgan_1.default)("dev"));
 app.use((0, cors_1.default)());
@@ -18,4 +19,5 @@ const PORT = config_1.default.PORT;
 sever.listen(PORT, () => {
     console.log(`Server listening at PORT: ${PORT}`);
 });
+(0, routerIndex_1.default)(app);
 app.use(errorHandleMiddleware_1.default);
