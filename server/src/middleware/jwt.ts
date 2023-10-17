@@ -7,7 +7,7 @@ interface Payload {
 
 const jwtAuthentication = () => {
   const generateToken = (payload: Payload) => {
-   const token = jwt.sign(payload,ConfigKeys.JWT_SECRET,{expiresIn: "3d"})
+    const token = jwt.sign(payload, ConfigKeys.JWT_SECRET, { expiresIn: "3d" });
     return token;
   };
 
@@ -19,6 +19,7 @@ const jwtAuthentication = () => {
     generateToken,
     verifyToken,
   };
+  
 };
 
 export default jwtAuthentication;
