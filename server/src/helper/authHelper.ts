@@ -4,27 +4,29 @@ import { UserDataInterface } from "../types/userData";
 
 const jwtTokens = jwtAuthentication();
 
-
 const authHelper = () => {
+  const getUserByEmail = async (email: string) => {
+    const data = await UserModel.find({ email });
+    return data;
+  };
 
-    const userRegister = async (userData: UserDataInterface) => {
-        const obj = {
-          email: userData.email,
-          role: "user",
-        };
-        const token = jwtTokens.generateToken(obj);
-        // const userExist = await getUserByEmail(userData.email);
-        // if (userExist.length) {
-        //   return token;
-        // }
-        UserModel.create(userData);
-        return token;
-      };
+  const userRegister = async (userData: UserDataInterface) => {
+    const obj = {
+      email: userData.email,
+      role: "user",
+    };
+    const token = jwtTokens.generateToken(obj);
+    const userExist = await getUserByEmail(userData.email);
+    if (userExist.length) {
+      return token;
+    }
+    UserModel.create(userData);
+    return token;
+  };
 
-      return{
-        userRegister
-      }
-
-}
+  return {
+    userRegister,
+  };
+};
 
 export default authHelper;
