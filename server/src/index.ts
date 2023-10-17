@@ -5,6 +5,7 @@ import cors from "cors";
 import errorHandleMiddleware from "./middleware/errorHandleMiddleware";
 import ConfigKeys from "./common/config";
 import router from "./routes/routerIndex";
+import connectDB from "./database/connection";
 
 // Create an Express application instance.
 const app: Application = express();
@@ -27,6 +28,8 @@ sever.listen(PORT, () => {
 
 // Set up the routes for our Express app using the 'router' function.
 router(app);
+
+connectDB();
 
 // Use our custom error handling middleware to handle errors in our application.
 app.use(errorHandleMiddleware);

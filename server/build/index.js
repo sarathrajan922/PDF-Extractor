@@ -10,6 +10,7 @@ const cors_1 = __importDefault(require("cors"));
 const errorHandleMiddleware_1 = __importDefault(require("./middleware/errorHandleMiddleware"));
 const config_1 = __importDefault(require("./common/config"));
 const routerIndex_1 = __importDefault(require("./routes/routerIndex"));
+const connection_1 = __importDefault(require("./database/connection"));
 // Create an Express application instance.
 const app = (0, express_1.default)();
 // Set up middleware for our Express app:
@@ -26,5 +27,6 @@ sever.listen(PORT, () => {
 });
 // Set up the routes for our Express app using the 'router' function.
 (0, routerIndex_1.default)(app);
+(0, connection_1.default)();
 // Use our custom error handling middleware to handle errors in our application.
 app.use(errorHandleMiddleware_1.default);
