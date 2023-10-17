@@ -27,6 +27,7 @@ sever.listen(PORT, () => {
 });
 // Set up the routes for our Express app using the 'router' function.
 (0, routerIndex_1.default)(app);
+// Establish a database connection using the 'connectDB' function.
 (0, connection_1.default)();
 // Use our custom error handling middleware to handle errors in our application.
 app.use(errorHandleMiddleware_1.default);
