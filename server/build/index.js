@@ -9,11 +9,12 @@ const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const errorHandleMiddleware_1 = __importDefault(require("./middleware/errorHandleMiddleware"));
 const app = (0, express_1.default)();
+const config_1 = __importDefault(require("./common/config"));
 app.use(express_1.default.json());
 app.use((0, morgan_1.default)("dev"));
 app.use((0, cors_1.default)());
 const sever = http_1.default.createServer(app);
-const PORT = 8000;
+const PORT = config_1.default.PORT;
 sever.listen(PORT, () => {
     console.log(`Server listening at PORT: ${PORT}`);
 });
