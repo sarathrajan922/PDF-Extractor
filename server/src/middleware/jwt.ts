@@ -19,7 +19,7 @@ const jwtAuthentication = () => {
     generateToken,
     verifyToken,
   };
-  
+
 };
 
 export default jwtAuthentication;

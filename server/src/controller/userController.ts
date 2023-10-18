@@ -3,7 +3,14 @@ import { HttpStatus } from '../types/httpStatus';
 import asyncHandler from 'express-async-handler';
 
 const userController = ()=>{
-    return true
+  const uploadPDF = asyncHandler(async (req:Request,res:Response)=>{
+      console.log(req.file)
+      return 
+  });
+
+  return {
+    uploadPDF
+  }
 }
 
 export default userController;
