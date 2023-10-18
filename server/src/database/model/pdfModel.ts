@@ -1,4 +1,4 @@
-import { Model, Schema, model } from "mongoose";
+import { Schema, model } from "mongoose";
 import { PDFInterface, UserPdfInterface } from "../../types/pdfType";
 
 const pdfSchema: Schema = new Schema<PDFInterface>({
@@ -7,7 +7,7 @@ const pdfSchema: Schema = new Schema<PDFInterface>({
   contentType: String, // Content type (e.g., application/pdf)
 });
 
-export const PdfModel = model("pdfs", pdfSchema, "pdf");
+export const PdfModel = model("Pdf", pdfSchema, "pdfs");
 
 const UserPdfSchema: Schema = new Schema<UserPdfInterface>({
   userId: String,
@@ -15,9 +15,9 @@ const UserPdfSchema: Schema = new Schema<UserPdfInterface>({
   newPdfs: [pdfSchema],
 });
 
-const UserPDFsModel: Model<UserPdfInterface> = model(
-  "pdfs",
+const UserPDFsModel= model(
+  "UserPDFs",
   UserPdfSchema,
-  "pdfs"
+  "userpdfs"
 );
 export default UserPDFsModel;
