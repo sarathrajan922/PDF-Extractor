@@ -9,7 +9,7 @@ const authentication = authHelper();
 const authControl = () => {
   const userSignup = asyncHandler(async (req: Request, res: Response) => {
     const result = await authentication.userRegister(req.body);
-    console.log("api hit authController");
+
     res.status(HttpStatus.OK).send({
       status: HttpStatus.OK,
       userToken: result,
