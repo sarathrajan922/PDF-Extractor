@@ -13,7 +13,6 @@ const userSetupAxiosInterceptor = (): AxiosInstance => {
         config.headers.authorization = `Bearer ${token}`;
       }
       
-
       return config;
     },
     (error: AxiosError) => {
