@@ -6,6 +6,7 @@ const controller = userController();
 
 userRouter.post('/upload-pdf',upload.single('pdf'),controller.uploadPDF);
 userRouter.get('/get-pdf/:userId/:pdfId',controller.getPdf);
+userRouter.get('/get-pages/:userId/:pdfId',controller.getPages);
 
 
 export default userRouter;
