@@ -1,8 +1,9 @@
 import axios, { AxiosRequestConfig } from "axios";
 import BASE_URL, { urls } from "../../../config";
+import { UserFormDataInterface } from "../../../types/userFormData";
 
-export const registerUser = async (values: any) => {
-  //todo replace any with corresponding formdata type
+export const registerUser = async (values: UserFormDataInterface) => {
+  
   try {
     const config: AxiosRequestConfig = {
       url: BASE_URL + urls.USER_REGISTER,

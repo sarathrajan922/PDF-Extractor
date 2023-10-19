@@ -1,31 +1,46 @@
 import React from "react";
 import { Formik, Field, ErrorMessage, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
-
-interface FormValues {
-  name: string;
-  email: string;
-}
+import { UserFormDataInterface } from "../../types/userFormData";
+import { registerUser } from "../../features/axios/api/userAuthentication";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { notify } from "../common/toast";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Name is required"),
+  name: Yup.string()
+    .required("Name is required")
+    .matches(/^[A-Za-z]+$/, "Name should only contain letters"),
   email: Yup.string()
     .email("Invalid email address")
     .required("Email is required"),
 });
 
 const Login: React.FC = () => {
-  const initialValues: FormValues = {
+  const navigate = useNavigate();
+  const initialValues: UserFormDataInterface = {
     name: "",
     email: "",
   };
 
   const handleSubmit = (
-    values: FormValues,
-    actions: FormikHelpers<FormValues>
+    values: UserFormDataInterface,
+    actions: FormikHelpers<UserFormDataInterface>
   ) => {
-    // Handle form submission here
-    console.log(values);
+    // Handle form submission 
+   
+    registerUser(values)
+      .then((response) => {
+        notify("success", "user logged successfully");
+        localStorage.setItem("userToken", response.userToken);
+        setTimeout(() => {
+          navigate("/dashboard");
+        },2000);
+      })
+      .catch((err) => {
+        notify("err", err.message);
+      });
     actions.setSubmitting(false);
   };
   return (
@@ -108,6 +123,7 @@ const Login: React.FC = () => {
             </Form>
           )}
         </Formik>
+        <ToastContainer />
       </div>
     </div>
   );

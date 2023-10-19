@@ -32,10 +32,10 @@ const userController = ()=>{
                 status:HttpStatus.OK,
                 message:'pdf fetch successfully',
                 data: result.data// this is pdf
-                
+
             });
         }
-        
+
     }
   });
 
@@ -54,7 +54,7 @@ const userController = ()=>{
             res.setHeader('Content-Disposition', `inline; filename="${result.name}"`);
             res.status(HttpStatus.OK).send(result.pdfBytes);
         }
-        
+
     }
   })
 
