@@ -1,6 +1,7 @@
 import UserPDFsModel, { PdfModel } from "../database/model/pdfModel";
 
 const userHelper = () => {
+
   const uploadPdf = async (req: any) => {
     // todo get the userId from token
     const userId = "652f7ba2622aa21080bb460b";
@@ -26,8 +27,25 @@ const userHelper = () => {
     return true;
   };
 
+  const getPDF = async(userId:string,pdfId:string)=>{
+    console.log(userId)
+    console.log(pdfId)
+    const user = await UserPDFsModel.findOne({ userId });
+    if (!user) {
+        return 'User not found';
+      }
+     // Find the PDF by its ID within the user's PDFs array
+    const pdf = user.originalPdfs.id(pdfId);
+    if (!pdf) {
+        return 'PDF not found';
+      }
+     // Send the PDF as a response
+    return pdf
+  }
+
   return {
     uploadPdf,
+    getPDF
   };
 };
 
