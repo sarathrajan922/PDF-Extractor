@@ -7,7 +7,7 @@ const Error: React.FC = () => {
     setUrl(window.location.href);
   }, []);
   return (
-    <section className="my-28 mb-44 dark:bg-gray-900">
+    <section className="my-28 mb-44 ">
       <div className="px-4 mx-auto max-w-screen-xl lg:pt-0">
         <div className="flex flex-col h-[35rem] items-center justify-center lg:flex-row lg:justify-center">
           <div className="text-center mt-32 lg:mt-0 lg:pr-10 ">
