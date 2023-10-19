@@ -1,7 +1,7 @@
 import UserPDFsModel, { PdfModel } from "../database/model/pdfModel";
+import { PDFDocument } from "pdf-lib";
 
 const userHelper = () => {
-
   const uploadPdf = async (req: any) => {
     // todo get the userId from token
     const userId = "652f7ba2622aa21080bb460b";
@@ -27,25 +27,79 @@ const userHelper = () => {
     return true;
   };
 
-  const getPDF = async(userId:string,pdfId:string)=>{
-    console.log(userId)
-    console.log(pdfId)
+  const getPDF = async (userId: string, pdfId: string) => {
+    console.log(userId);
+    console.log(pdfId);
     const user = await UserPDFsModel.findOne({ userId });
     if (!user) {
-        return 'User not found';
-      }
-     // Find the PDF by its ID within the user's PDFs array
+      return "User not found";
+    }
+    // Find the PDF by its ID within the user's PDFs array
     const pdf = user.originalPdfs.id(pdfId);
     if (!pdf) {
-        return 'PDF not found';
+      return "PDF not found";
+    }
+    return pdf;
+  };
+
+  const getPages = async (userId: string, pdfId: string, pages: any) => {
+    console.log("pages", pages);
+    const user = await UserPDFsModel.findOne({ userId });
+    if (!user) {
+      return "User not found";
+    }
+    const pdf = user.originalPdfs.id(pdfId);
+    if (!pdf) {
+      return "PDF not found";
+    }
+
+    // Convert the Buffer data to a PDF document
+    const pdfDoc = await PDFDocument.load(pdf.data);
+
+    // Create a new PDF document for selected pages
+    const newPdfDoc = await PDFDocument.create();
+
+    const selectedPageNumbers = pages
+      .split(",")
+      .map((page: string) => parseInt(page));
+
+    // Iterate over the selected pages and copy them to the new PDF
+    for (const pageNumber of selectedPageNumbers) {
+      if (pageNumber >= 1 && pageNumber <= pdfDoc.getPageCount()) {
+        const [copiedPage] = await newPdfDoc.copyPages(pdfDoc, [
+          pageNumber - 1,
+        ]);
+        newPdfDoc.addPage(copiedPage);
       }
-     // Send the PDF as a response
-    return pdf
-  }
+    }
+
+    // Serialize the new PDF document to a Buffer
+    const pdfBytesArray = await newPdfDoc.save();
+    // Serialize the new PDF document to a Buffer
+    const pdfBytes = Buffer.from(pdfBytesArray); // Convert the array to a Buffer
+
+    const combinedPDF = new PdfModel({
+      name: "combined.pdf",
+      data: pdfBytes,
+      contentType: "application/pdf",
+    });
+
+    // Push the PDF to the user's array of PDFs
+    user.newPdfs.push(combinedPDF);
+
+    // Save the user with the updated PDF array
+    await user.save();
+
+    return {
+      pdfBytes,
+      name: pdf.name,
+    };
+  };
 
   return {
     uploadPdf,
-    getPDF
+    getPDF,
+    getPages,
   };
 };
 
