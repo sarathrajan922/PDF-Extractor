@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import { Formik, Field, ErrorMessage, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { UserFormDataInterface } from "../../types/userFormData";
@@ -18,7 +18,21 @@ const validationSchema = Yup.object().shape({
 });
 
 const Login: React.FC = () => {
+  const [isLogin,setIsLogin] = useState<boolean | null>(null);
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    const isLoginCheck = async()=>{
+      const token = window.localStorage.getItem('userToken');
+    setIsLogin(true)
+      if(token){
+        navigate('/ddd')
+      }
+    }
+    isLoginCheck()
+  })
+
+
   const initialValues: UserFormDataInterface = {
     name: "",
     email: "",
@@ -43,7 +57,12 @@ const Login: React.FC = () => {
       });
     actions.setSubmitting(false);
   };
-  return (
+  return !isLogin ? <div className=" w-full flex justify-center  h-full ">
+  <div className="py-52">
+    {/* <CircleLoader color="#1bacbf " /> */}
+    Loading....
+  </div>
+</div> :  (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
