@@ -2,10 +2,7 @@ import UserPDFsModel, { PdfModel } from "../database/model/pdfModel";
 import { PDFDocument } from "pdf-lib";
 
 const userHelper = () => {
-  const uploadPdf = async (req: any) => {
-    // todo get the userId from token
-    const userId = "userId from token";
-
+  const uploadPdf = async (req: any, userId: string) => {
     let user = await UserPDFsModel.findOne({ userId });
 
     if (!user) {
@@ -19,12 +16,15 @@ const userHelper = () => {
       contentType: req.mimetype,
     });
 
+    const pdfId = newPDF._id?.toString();
+  
+
     // Push the PDF to the user's array of PDFs
     user.originalPdfs.push(newPDF);
 
     // Save the user with the updated PDF array
     await user.save();
-    return true;
+    return pdfId;
   };
 
   const getPDF = async (userId: string, pdfId: string) => {

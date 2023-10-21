@@ -6,8 +6,8 @@ const userRouter = express.Router();
 const controller = userController();
 
 userRouter.post('/upload-pdf',authenticationMiddleware,upload.single('pdf'),controller.uploadPDF);
-userRouter.get('/get-pdf/:userId/:pdfId',authenticationMiddleware,controller.getPdf);
-userRouter.get('/get-pages/:userId/:pdfId',authenticationMiddleware,controller.getPages);
+userRouter.get('/get-pdf/:pdfId',authenticationMiddleware,controller.getPdf);
+userRouter.get('/get-pages/:pdfId',authenticationMiddleware,controller.getPages);
 
 
 export default userRouter;

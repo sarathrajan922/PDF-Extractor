@@ -1,7 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
+import { useParams } from "react-router-dom";
+import { getPDF } from "../../features/axios/api/userGetPdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 const Editor: React.FC = () => {
+  const { id } = useParams();
+
+  const [pdfUrl, setPdfUrl] = useState<any>(null);
+  useEffect(() => {
+    if (id) {
+      getPDF(id)
+        .then((response) => {
+          console.log(response.data);
+          // Convert the binary data to Blob or Uint8Array, create a URL
+          const binaryData = response.data.data; // Replace with your binary data
+          const uint8Array = new Uint8Array(binaryData);
+          const blob = new Blob([uint8Array], { type: "application/pdf" });
+          const pdfUrl = URL.createObjectURL(blob);
+          setPdfUrl(pdfUrl);
+        })
+        .catch((error) => console.log(error.message));
+    }
+  }, [id]);
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState<number>(1);
 
@@ -9,25 +29,28 @@ const Editor: React.FC = () => {
     setNumPages(numPages);
     setPageNumber(1);
   };
- console.log(numPages)
+  console.log(numPages);
   return (
- 
     <div className="flex flex-wrap">
       {/* Left Section */}
       <div className="w-full md:w-1/2 p-4">
         <h1 className="text-2xl font-bold mb-4 text-center">PDF Viewer</h1>
         <div className="rounded-md p-4 h-[35rem] shadow-2xl overflow-y-auto">
-        <div >
-                 <Document
-                  file="/sample2.pdf"
-                  onLoadSuccess={onDocumentLoadSuccess}
-                >
-                  {Array.from(new Array(numPages),(el, index) => (
-                    <Page  key={`page_${index + 1}`} pageNumber={index + 1} />
-                  ))}
-                </Document>
-              </div>
-         
+          <div>
+            {pdfUrl ? (
+              <Document file={pdfUrl} onLoadSuccess={onDocumentLoadSuccess}>
+                {Array.from(new Array(numPages), (el, index) => (
+                  <Page
+                    key={`page_${index + 1}`}
+                    pageNumber={index + 1}
+                    width={600}
+                  />
+                ))}
+              </Document>
+            ) : (
+              <div className="text-center">Loading...</div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -36,16 +59,17 @@ const Editor: React.FC = () => {
         <h1 className="text-2xl font-bold mb-4 text-center">Editor</h1>
         <div className="rounded-md p-4 flex justify-center shadow-2xl h-[35rem] ">
           {/* Non-scrollable content */}
-          <div >
-
-          <p className="text-center">Extract PDF</p>
-          <p className="text-center">Number of Pages: {numPages}</p>
-           {/* Buttons */}
-           <button className="bg-blue-500 text-white px-4 py-2 rounded-md">Button 1</button>
-          <button className="bg-green-500 text-white px-4 py-2 rounded-md ml-2">Button 2</button>
+          <div>
+            <p className="text-center">Extract PDF</p>
+            <p className="text-center">Number of Pages: {numPages}</p>
+            {/* Buttons */}
+            <button className="bg-blue-500 text-white px-4 py-2 rounded-md">
+              Button 1
+            </button>
+            <button className="bg-green-500 text-white px-4 py-2 rounded-md ml-2">
+              Button 2
+            </button>
           </div>
-
-         
         </div>
       </div>
     </div>
