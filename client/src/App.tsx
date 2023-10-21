@@ -6,12 +6,13 @@ import Navbar from './components/navbar/navbar';
 function App() {
   return (
     <>
+    
+    <Navbar/>
     <div className="App">
       
        <h3 className='text-gray-600'>PDF Extractor</h3>
     
     </div>
-    <Navbar/>
     <Outlet/>
     </>
   );

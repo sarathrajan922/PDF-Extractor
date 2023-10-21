@@ -3,6 +3,7 @@ import ConfigKeys from "../common/config";
 interface Payload {
   email: string;
   role: string;
+  id:string;
 }
 
 const jwtAuthentication = () => {

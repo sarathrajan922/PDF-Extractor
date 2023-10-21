@@ -2,11 +2,14 @@ import {Request ,Response} from 'express';
 import { HttpStatus } from '../types/httpStatus';
 import asyncHandler from 'express-async-handler';
 import userHelper from '../helper/userHelper';
+import { CustomRequest } from '../types/customRequest';
 
 
 const helper = userHelper();
 const userController = ()=>{
-  const uploadPDF = asyncHandler(async (req:Request,res:Response)=>{
+  const uploadPDF = asyncHandler(async (req:CustomRequest,res:Response)=>{
+    const userId = req.payload?.email;
+    console.log(userId)
     const result = await helper.uploadPdf(req.file)
       if(result){
         res.status(HttpStatus.OK).send({
