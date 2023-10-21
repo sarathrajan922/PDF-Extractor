@@ -27,10 +27,9 @@ const Upload: React.FC = () => {
       formData.append('pdf', file);
 
        uploadPDF(formData).then((response)=>{
-        console.log(response)
         notify("success", "your PDF uploaded!");
         setTimeout(()=>{
-            navigate('/editor')
+            navigate(`/editor/${response.pdfId}`)
         },1500);
         
        }).catch(error => console.log(error.message))

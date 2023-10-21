@@ -25,7 +25,7 @@ const AppRouter = createBrowserRouter([
                 element:<Upload/>
             },
             {
-                path:'editor',
+                path:'editor/:id',
                 element: <Editor/>
             }
         ]
