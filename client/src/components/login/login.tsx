@@ -26,7 +26,7 @@ const Login: React.FC = () => {
       const token = window.localStorage.getItem('userToken');
     setIsLogin(true)
       if(token){
-        navigate('/ddd')
+        navigate('/upload')
       }
     }
     isLoginCheck()
@@ -49,7 +49,7 @@ const Login: React.FC = () => {
         notify("success", "user logged successfully");
         localStorage.setItem("userToken", response.userToken);
         setTimeout(() => {
-          navigate("/dashboard");
+          navigate("/upload");
         },2000);
       })
       .catch((err) => {

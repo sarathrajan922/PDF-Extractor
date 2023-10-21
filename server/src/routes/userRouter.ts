@@ -1,12 +1,13 @@
 import express from 'express';
 import userController from '../controller/userController'
 import upload from '../middleware/multer';
+import authenticationMiddleware from '../middleware/authenticationMiddleware';
 const userRouter = express.Router();
 const controller = userController();
 
-userRouter.post('/upload-pdf',upload.single('pdf'),controller.uploadPDF);
-userRouter.get('/get-pdf/:userId/:pdfId',controller.getPdf);
-userRouter.get('/get-pages/:userId/:pdfId',controller.getPages);
+userRouter.post('/upload-pdf',authenticationMiddleware,upload.single('pdf'),controller.uploadPDF);
+userRouter.get('/get-pdf/:userId/:pdfId',authenticationMiddleware,controller.getPdf);
+userRouter.get('/get-pages/:userId/:pdfId',authenticationMiddleware,controller.getPages);
 
 
 export default userRouter;
