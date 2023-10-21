@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { Outlet } from 'react-router-dom';
+import Navbar from './components/navbar/navbar';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
        <h3 className='text-gray-600'>PDF Extractor</h3>
     
     </div>
+    <Navbar/>
     <Outlet/>
     </>
   );

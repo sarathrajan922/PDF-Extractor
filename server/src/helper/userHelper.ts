@@ -4,7 +4,7 @@ import { PDFDocument } from "pdf-lib";
 const userHelper = () => {
   const uploadPdf = async (req: any) => {
     // todo get the userId from token
-    const userId = "652f7ba2622aa21080bb460b";
+    const userId = "userId from token";
 
     let user = await UserPDFsModel.findOne({ userId });
 

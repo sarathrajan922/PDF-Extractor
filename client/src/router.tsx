@@ -3,6 +3,8 @@ import App from "./App";
 import Error from "./components/common/error";
 import Login from "./components/login/login";
 import Navbar from "./components/navbar/navbar";
+import Upload from "./components/upload/upload";
+import Editor from "./components/editor/editor";
 
 const AppRouter = createBrowserRouter([
     {
@@ -17,6 +19,14 @@ const AppRouter = createBrowserRouter([
             {
                 path:'nav',
                 element: <Navbar/>
+            },
+            {
+                path:'upload',
+                element:<Upload/>
+            },
+            {
+                path:'editor',
+                element: <Editor/>
             }
         ]
     }
