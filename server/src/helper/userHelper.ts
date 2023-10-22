@@ -17,7 +17,6 @@ const userHelper = () => {
     });
 
     const pdfId = newPDF._id?.toString();
-  
 
     // Push the PDF to the user's array of PDFs
     user.originalPdfs.push(newPDF);
@@ -43,7 +42,6 @@ const userHelper = () => {
   };
 
   const getPages = async (userId: string, pdfId: string, pages: any) => {
-    console.log("pages", pages);
     const user = await UserPDFsModel.findOne({ userId });
     if (!user) {
       return "User not found";
