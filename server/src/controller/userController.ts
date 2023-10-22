@@ -13,7 +13,7 @@ const userController = () => {
       res.status(HttpStatus.OK).send({
         status: HttpStatus.OK,
         message: "pdf successfully uploaded",
-        pdfId:result
+        pdfId: result,
       });
     }
   });
@@ -47,6 +47,7 @@ const userController = () => {
     const userId = req.payload?.id ?? "";
     const { pdfId } = req.params;
     const { pages } = req.query;
+
     const result = await helper.getPages(userId, pdfId, pages);
     if (result) {
       if (result === "User not found" || result === "PDF not found") {
@@ -60,7 +61,9 @@ const userController = () => {
           "Content-Disposition",
           `inline; filename="${result.name}"`
         );
-        res.status(HttpStatus.OK).send(result.pdfBytes);
+        res.status(HttpStatus.OK).send({
+          data: result.pdfBytes,
+        });
       }
     }
   });

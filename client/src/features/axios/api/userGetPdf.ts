@@ -5,8 +5,7 @@ import BASE_URL, { urls } from "../../../config";
 const api = userSetupAxiosInterceptor();
 
 export const getPDF = async (pdfId:string) => {
-    //todo change the pdfId into dynamic
-//   const pdfId = "65342100114e0f8b9e9eab2c";
+   
   try {
     const config: AxiosRequestConfig = {
       url: BASE_URL + urls.USER_GET_PDF + pdfId,
