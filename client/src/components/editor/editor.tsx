@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
-import { useParams } from "react-router-dom";
+import * as pdfjsLib from "pdfjs-dist";
+import { useParams, useNavigate } from "react-router-dom";
 import { getPDF } from "../../features/axios/api/userGetPdf";
 import { newPdf } from "../../features/axios/api/userGetNewPdf";
-pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+
 const Editor: React.FC = () => {
   const { id } = useParams();
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<Array<string>>(
     []
   );
+  const navigate = useNavigate();
+  const [err, setErr] = useState<boolean>(false);
   const [pdfUrl, setPdfUrl] = useState<any>(null);
   useEffect(() => {
     if (id) {
       getPDF(id)
         .then((response) => {
-          // console.log(response.data);
           // Convert the binary data to Blob or Uint8Array, create a URL
-          const binaryData = response.data.data; // Replace with your binary data
+          const binaryData = response.data.data; //  binary data
           const uint8Array = new Uint8Array(binaryData);
           const blob = new Blob([uint8Array], { type: "application/pdf" });
           const pdfUrl = URL.createObjectURL(blob);
@@ -25,13 +27,8 @@ const Editor: React.FC = () => {
         .catch((error) => console.log(error.message));
     }
   }, [id]);
-  const [numPages, setNumPages] = useState<number | null>(null);
-  const [pageNumber, setPageNumber] = useState<number>(1);
 
-  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
-    setNumPages(numPages);
-    setPageNumber(1);
-  };
+  const [numPages, setNumPages] = useState<number | null>(null);
 
   const handleCheckboxChange = (value: string, isChecked: boolean) => {
     if (isChecked) {
@@ -41,36 +38,73 @@ const Editor: React.FC = () => {
     }
   };
 
-  const handleExtract = () => {
-    // Use the selectedCheckboxes state to access the values of the selected checkboxes
-    console.log("Selected checkboxes:", selectedCheckboxes);
-    // Do further processing with the selected checkboxes
-    if(id){
+  //get number of pages inside the pdf
+  async function getNumberOfPages(pdfUrl: string) {
+    try {
+      const loadingTask = pdfjsLib.getDocument(pdfUrl);
+      const pdfDocument = await loadingTask.promise;
+      const numPages = pdfDocument.numPages;
+      setNumPages(numPages);
+    } catch (error) {
+      console.error("Error loading the PDF:", error);
+    }
+  }
 
-      newPdf(selectedCheckboxes,id).then((response)=>{
-        console.log(response)
-        setPdfUrl(response.data)
-      }).catch(error => console.log(error.message));
+  getNumberOfPages(pdfUrl);
+
+  const handleExtract = () => {
+    // Do further processing with the selected checkboxes
+    if (id && selectedCheckboxes.length) {
+      newPdf(selectedCheckboxes, id)
+        .then((response) => {
+          const pdfDataUrl = convertBufferToPdfUrl(response.data.data);
+          setPdfUrl(pdfDataUrl);
+        })
+        .catch((error) => console.log(error.message));
+    } else {
+      setErr(true);
+      setTimeout(() => {
+        setErr(false);
+      }, 6000);
+    }
+  };
+
+  useEffect(() => {
+    setSelectedCheckboxes([]);
+  }, [pdfUrl]);
+
+  const convertBufferToPdfUrl = (buffer: number[]): string => {
+    const uint8Array = new Uint8Array(buffer);
+    const blob = new Blob([uint8Array], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+    return url;
+  };
+  const chooseAnother = () => {
+    navigate("/upload");
+  };
+
+  const handleDownload = () => {
+    if (pdfUrl) {
+      const link = document.createElement("a");
+      link.href = pdfUrl;
+      link.download = "your_name.pdf"; // You can set the desired filename here
+      link.click();
     }
   };
 
   return (
     <div className="flex flex-wrap">
-      {/* Left Section */}
       <div className="w-full md:w-1/2 p-4">
         <h1 className="text-2xl font-bold mb-4 text-center">PDF Viewer</h1>
         <div className="rounded-md p-4 h-[35rem] shadow-2xl overflow-y-auto">
           <div>
             {pdfUrl ? (
-              <Document file={pdfUrl} onLoadSuccess={onDocumentLoadSuccess}>
-                {Array.from(new Array(numPages), (el, index) => (
-                  <Page
-                    key={`page_${index + 1}`}
-                    pageNumber={index + 1}
-                    width={600}
-                  />
-                ))}
-              </Document>
+              <iframe
+                src={pdfUrl}
+                width="100%"
+                height="500px"
+                title="PDF Viewer"
+              />
             ) : (
               <div className="text-center">Loading...</div>
             )}
@@ -82,7 +116,6 @@ const Editor: React.FC = () => {
       <div className="w-full md:w-1/2 p-4">
         <h1 className="text-2xl font-bold mb-4 text-center">Editor</h1>
         <div className="rounded-md p-4 flex justify-center shadow-2xl h-[35rem]">
-          {/* Non-scrollable content */}
           <div>
             {pdfUrl ? (
               <>
@@ -120,7 +153,7 @@ const Editor: React.FC = () => {
                       </div>
                     ))}
                 </div>
-                <div className="flex justify-center my-10">
+                <div className="flex flex-col justify-center my-10">
                   <button
                     type="button"
                     className="text-white text-center bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-align-center mr-2 mb-2"
@@ -128,6 +161,26 @@ const Editor: React.FC = () => {
                   >
                     Extract
                   </button>
+                  <button
+                    type="button"
+                    className="text-white text-center bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-align-center mr-2 mb-2"
+                    onClick={chooseAnother}
+                  >
+                    Choose Another
+                  </button>
+
+                  <button
+                    onClick={handleDownload}
+                    className="text-white text-center bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-align-center mr-2 mb-2"
+                  >
+                    Download
+                  </button>
+
+                  {err && (
+                    <div className="text-center text-red-600">
+                      Please Select Atleast One Page!
+                    </div>
+                  )}
                 </div>
               </>
             ) : (
