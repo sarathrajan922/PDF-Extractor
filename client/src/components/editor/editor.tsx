@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as pdfjsLib from "pdfjs-dist";
+import usePdfPages from "../../features/customHooks/usePdfPages";
+
 import { useParams, useNavigate } from "react-router-dom";
 import { getPDF } from "../../features/axios/api/userGetPdf";
 import { newPdf } from "../../features/axios/api/userGetNewPdf";
@@ -7,6 +9,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.j
 
 const Editor: React.FC = () => {
   const { id } = useParams();
+  
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<Array<string>>(
     []
   );
@@ -28,7 +31,11 @@ const Editor: React.FC = () => {
     }
   }, [id]);
 
+
+    
+ 
   const [numPages, setNumPages] = useState<number | null>(null);
+
 
   const handleCheckboxChange = (value: string, isChecked: boolean) => {
     if (isChecked) {
@@ -37,20 +44,6 @@ const Editor: React.FC = () => {
       setSelectedCheckboxes((prev) => prev.filter((item) => item !== value));
     }
   };
-
-  //get number of pages inside the pdf
-  async function getNumberOfPages(pdfUrl: string) {
-    try {
-      const loadingTask = pdfjsLib.getDocument(pdfUrl);
-      const pdfDocument = await loadingTask.promise;
-      const numPages = pdfDocument.numPages;
-      setNumPages(numPages);
-    } catch (error) {
-      console.error("Error loading the PDF:", error);
-    }
-  }
-
-  getNumberOfPages(pdfUrl);
 
   const handleExtract = () => {
     // Do further processing with the selected checkboxes
@@ -69,9 +62,12 @@ const Editor: React.FC = () => {
     }
   };
 
+  //usePdfPages Hook return the number of pages inside the pdf
+  const pages = usePdfPages(pdfUrl)
   useEffect(() => {
     setSelectedCheckboxes([]);
-  }, [pdfUrl]);
+    setNumPages(pages)
+  }, [pages, pdfUrl]);
 
   const convertBufferToPdfUrl = (buffer: number[]): string => {
     const uint8Array = new Uint8Array(buffer);
