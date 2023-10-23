@@ -75,6 +75,9 @@ const Editor: React.FC = () => {
     const url = URL.createObjectURL(blob);
     return url;
   };
+
+
+  
   const chooseAnother = () => {
     navigate("/upload");
   };

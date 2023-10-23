@@ -22,7 +22,7 @@ const Upload: React.FC = () => {
             setSelectedFile(file);
 
 
-            // Create a FormData object to send the file to your API
+      // Create a FormData object to send the file to your API
       const formData = new FormData();
       formData.append('pdf', file);
 
@@ -52,17 +52,17 @@ const Upload: React.FC = () => {
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
-          className="mx-auto h-10 w-auto"
-          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+          className="mx-auto h-36 w-auto"
+          src="https://res.cloudinary.com/dk4darniv/image/upload/v1698079703/pdf%20logos/pdf-parser_ipnviw.webp"
           alt="Your Company"
         />
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-red-500">
-          UPLOAD YOUR PDF HERE
+        <h2 className=" text-center text-3xl font-extrabold text-gray-700 dark:text-gray-500">
+        Share Your Amazing PDF
         </h2>
       </div>
 
-      <div className="mt-10 lg:w-[40rem] sm:mx-auto sm:w-full  ">
-        <div className="flex items-center justify-center w-full">
+      <div className="mt-8 lg:w-[40rem] sm:mx-auto sm:w-full  ">
+        <div className="flex flex-col items-center justify-center w-full">
           <label
             htmlFor="dropzone-file"
             className="flex flex-col items-center justify-center w-full h-64 border-2 border-blue-950 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-amber-100 hover:bg-amber-200 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-yellow-50"
@@ -83,9 +83,8 @@ const Upload: React.FC = () => {
                   d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                 />
               </svg>
-              <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                <span className="font-semibold">Click to upload</span> or drag
-                and drop
+              <p className="mb-2 text-xl text-gray-500 dark:text-gray-400">
+                <span className="font-semibold ">Click to upload</span > 
               </p>
               <p className="text-xs text-gray-500 dark:text-gray-400">
                 PDF only 
@@ -93,7 +92,10 @@ const Upload: React.FC = () => {
             </div>
             <input id="dropzone-file" type="file" className="hidden" onChange={handleFileChange}/>
           </label>
-          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+          <div className='my-5'>
+
+          {errorMessage && <h1 className="text-red-500 text-xl">{errorMessage}</h1>}
+          </div>
           {selectedFile && (
         <p className="text-green-500">Selected File: {selectedFile.name}</p>
       )}

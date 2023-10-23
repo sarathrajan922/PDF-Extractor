@@ -7,7 +7,7 @@ const pdfSchema: Schema = new Schema<PDFInterface>({
   contentType: String, // Content type (e.g., application/pdf)
 });
 
-export const PdfModel = model("Pdf", pdfSchema, "pdfs");
+export const PdfModel = model("Pdf", pdfSchema);
 
 const UserPdfSchema: Schema = new Schema<UserPdfInterface>({
   userId: String,
@@ -15,9 +15,5 @@ const UserPdfSchema: Schema = new Schema<UserPdfInterface>({
   newPdfs: [pdfSchema],
 });
 
-const UserPDFsModel= model(
-  "UserPDFs",
-  UserPdfSchema,
-  "userpdfs"
-);
+const UserPDFsModel = model("UserPDFs", UserPdfSchema, "userpdfs");
 export default UserPDFsModel;

@@ -27,8 +27,7 @@ const userHelper = () => {
   };
 
   const getPDF = async (userId: string, pdfId: string) => {
-    console.log(userId);
-    console.log(pdfId);
+    
     const user = await UserPDFsModel.findOne({ userId });
     if (!user) {
       return "User not found";
