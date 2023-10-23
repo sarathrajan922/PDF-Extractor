@@ -67,7 +67,7 @@ const Login: React.FC = () => {
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           className="mx-auto h-10 w-auto"
-          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+          src="https://res.cloudinary.com/dk4darniv/image/upload/v1697793048/pdf%20logos/_-xSnrXjfDZJcIr_I25vYF8GkZI0uW6p_gm7pmb.webp"
           alt="Your Company"
         />
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">

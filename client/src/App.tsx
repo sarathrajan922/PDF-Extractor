@@ -10,7 +10,7 @@ function App() {
     <Navbar/>
     <div className="App">
       
-       <h3 className='text-gray-600'>PDF Extractor</h3>
+       <h3 className='text-gray-600 opacity-25'>PDF Extractor</h3>
     
     </div>
     <Outlet/>
