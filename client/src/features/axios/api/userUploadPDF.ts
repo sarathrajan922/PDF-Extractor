@@ -19,7 +19,7 @@ export const uploadPDF = async(file:any)=>{
         if(err.message === "Request failed with status code 404") {
             throw new Error("Api not available!!");
           } else {
-            throw new Error("something went wrong!!,Try again!");
+            throw new Error("something went wrong!!,PDF oversized!");
           }
     };
 }
