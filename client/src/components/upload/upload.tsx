@@ -58,7 +58,7 @@ const Upload: React.FC = () => {
           src="https://res.cloudinary.com/dk4darniv/image/upload/v1698079703/pdf%20logos/pdf-parser_ipnviw.webp"
           alt="Your Company"
         />
-        <h2 className=" text-center text-3xl font-extrabold text-gray-700 dark:text-gray-500">
+        <h2 className=" text-center text-2xl text-bold text-gray-700 dark:text-gray-500">
           Share Your Amazing PDF
         </h2>
       </div>
