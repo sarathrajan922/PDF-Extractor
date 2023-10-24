@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import express, { Application } from "express";
 import http from "http";
 import morgan from "morgan";
