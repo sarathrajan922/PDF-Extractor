@@ -9,7 +9,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.j
 
 const Editor: React.FC = () => {
   const { id } = useParams();
-  
+
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<Array<string>>(
     []
   );
@@ -31,11 +31,7 @@ const Editor: React.FC = () => {
     }
   }, [id]);
 
-
-    
- 
   const [numPages, setNumPages] = useState<number | null>(null);
-
 
   const handleCheckboxChange = (value: string, isChecked: boolean) => {
     if (isChecked) {
@@ -63,10 +59,10 @@ const Editor: React.FC = () => {
   };
 
   //usePdfPages Hook return the number of pages inside the pdf
-  const pages = usePdfPages(pdfUrl)
+  const pages = usePdfPages(pdfUrl);
   useEffect(() => {
     setSelectedCheckboxes([]);
-    setNumPages(pages)
+    setNumPages(pages);
   }, [pages, pdfUrl]);
 
   const convertBufferToPdfUrl = (buffer: number[]): string => {
@@ -76,8 +72,6 @@ const Editor: React.FC = () => {
     return url;
   };
 
-
-  
   const chooseAnother = () => {
     navigate("/upload");
   };
@@ -105,8 +99,11 @@ const Editor: React.FC = () => {
                 title="PDF Viewer"
               />
             ) : (
-              <div className="text-center">Loading...</div>
-            )}
+              <div className="flex flex-col justify-center items-center">
+                <div className="spinner"></div>
+                <div>Loading...</div>
+              </div>
+            )} 
           </div>
         </div>
       </div>
@@ -183,14 +180,16 @@ const Editor: React.FC = () => {
                 </div>
               </>
             ) : (
-              <div> Loading.. </div>
+              <>
+                <div className="spinner"></div>
+                <div className="text-center">Loading...</div>
+              </>
             )}
           </div>
         </div>
       </div>
     </div>
   );
-  
 };
 
 export default Editor;
