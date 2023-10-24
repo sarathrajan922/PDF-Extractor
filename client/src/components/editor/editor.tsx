@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import * as pdfjsLib from "pdfjs-dist";
 import usePdfPages from "../../features/customHooks/usePdfPages";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useParams, useNavigate } from "react-router-dom";
 import { getPDF } from "../../features/axios/api/userGetPdf";
 import { newPdf } from "../../features/axios/api/userGetNewPdf";
+import { notify } from "../common/toast";
 pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 
 const Editor: React.FC = () => {
   const { id } = useParams();
-
+  const [loader,setLoader] = useState<boolean>(false)
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<Array<string>>(
     []
   );
@@ -44,12 +46,21 @@ const Editor: React.FC = () => {
   const handleExtract = () => {
     // Do further processing with the selected checkboxes
     if (id && selectedCheckboxes.length) {
+      setLoader(true);
       newPdf(selectedCheckboxes, id)
         .then((response) => {
+          setLoader(false)
           const pdfDataUrl = convertBufferToPdfUrl(response.data.data);
           setPdfUrl(pdfDataUrl);
+          
         })
-        .catch((error) => console.log(error.message));
+        .catch((error) =>{
+          console.log(error.message);
+          notify('err',error.message);
+          setTimeout(()=>{
+            window.location.reload();
+          },1500)
+        }); 
     } else {
       setErr(true);
       setTimeout(() => {
@@ -86,8 +97,9 @@ const Editor: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-wrap">
-      <div className="w-full md:w-1/2 p-4">
+    <div className="flex flex-wrap items-center justify-center min-h-screen">
+      {
+        !loader && <div className="w-full md:w-1/2 p-4">
         <h1 className="text-2xl font-bold mb-4 text-center">PDF Viewer</h1>
         <div className="rounded-md p-4 h-[35rem] shadow-2xl overflow-y-auto">
           <div>
@@ -107,9 +119,21 @@ const Editor: React.FC = () => {
           </div>
         </div>
       </div>
+      }
+      
+       {
+        loader && 
+        <div>
 
+          <div className="spinner ms-3 mb-3"></div>
+          <div className="m">Please wait...</div>
+        </div>
+          
+        
+       }
       {/* Right Section */}
-      <div className="w-full md:w-1/2 p-4">
+      {
+        !loader &&  <div className="w-full md:w-1/2 p-4">
         <h1 className="text-2xl font-bold mb-4 text-center">Editor</h1>
         <div className="rounded-md p-4 flex justify-center shadow-2xl h-[35rem]">
           <div>
@@ -187,7 +211,11 @@ const Editor: React.FC = () => {
             )}
           </div>
         </div>
+        <ToastContainer/>
       </div>
+      }
+     
+
     </div>
   );
 };
