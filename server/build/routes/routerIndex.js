@@ -1,9 +1,20 @@
 "use strict";
+/**
+ * @description router index
+ * This module defines the different types of routes
+ * @import
+ * import Application type from express
+ * import the router for authentication (authRouter)
+ * import the router for user-related routes (userRouter)
+ *
+ * @exports
+ * Export the router function to be used in other parts of the application
+ *
+ */
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// Import the routers for authentication and user-related routes.
 const authRouter_1 = __importDefault(require("./authRouter"));
 const userRouter_1 = __importDefault(require("./userRouter"));
 const router = (app) => {
@@ -12,5 +23,4 @@ const router = (app) => {
     // Mount the 'userRouter' middleware for requests to '/api/user' routes.
     app.use("/api/user", userRouter_1.default);
 };
-// Export the 'router' function to be used in other parts of the application.
 exports.default = router;

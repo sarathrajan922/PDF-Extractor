@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Field, ErrorMessage, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { UserFormDataInterface } from "../../types/userFormData";
@@ -8,6 +8,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { notify } from "../common/toast";
 import { useNavigate } from "react-router-dom";
 
+
+//validation schema for form validation
 const validationSchema = Yup.object().shape({
   name: Yup.string()
     .required("Name is required")
@@ -18,20 +20,19 @@ const validationSchema = Yup.object().shape({
 });
 
 const Login: React.FC = () => {
-  const [isLogin,setIsLogin] = useState<boolean | null>(null);
+  const [isLogin, setIsLogin] = useState<boolean | null>(null);
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    const isLoginCheck = async()=>{
-      const token = window.localStorage.getItem('userToken');
-    setIsLogin(true)
-      if(token){
-        navigate('/upload')
+  useEffect(() => {
+    const isLoginCheck = async () => {
+      const token = window.localStorage.getItem("userToken");
+      setIsLogin(true);
+      if (token) {
+        navigate("/upload");
       }
-    }
-    isLoginCheck()
-  })
-
+    };
+    isLoginCheck();
+  });
 
   const initialValues: UserFormDataInterface = {
     name: "",
@@ -42,27 +43,29 @@ const Login: React.FC = () => {
     values: UserFormDataInterface,
     actions: FormikHelpers<UserFormDataInterface>
   ) => {
-    // Handle form submission 
-   
+    // Handle form submission
+    //API call
     registerUser(values)
       .then((response) => {
         notify("success", "user logged successfully");
         localStorage.setItem("userToken", response.userToken);
         setTimeout(() => {
           navigate("/upload");
-        },2000);
+        }, 2000);
       })
       .catch((err) => {
         notify("err", err.message);
       });
     actions.setSubmitting(false);
   };
-  return !isLogin ? <div className=" w-full flex justify-center  h-full ">
-  <div className="py-52">
-    {/* <CircleLoader color="#1bacbf " /> */}
-    Loading....
-  </div>
-</div> :  (
+  return !isLogin ? (
+    <div className=" w-full flex justify-center  h-full ">
+      <div className="py-52">
+       
+        Loading....
+      </div>
+    </div>
+  ) : (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
@@ -133,7 +136,7 @@ const Login: React.FC = () => {
               <div>
                 <button
                   type="submit"
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="flex w-full justify-center rounded-md bg-gray-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   disabled={isSubmitting}
                 >
                   Sign in / register

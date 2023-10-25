@@ -1,7 +1,3 @@
-import * as dotenv from 'dotenv';
-import * as path from 'path';
-const envPath = path.resolve(__dirname, '../..env');
-dotenv.config({ path: envPath });
 import express, { Application } from "express";
 import http from "http";
 import morgan from "morgan";
