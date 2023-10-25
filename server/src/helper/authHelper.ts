@@ -1,3 +1,22 @@
+/**
+ * @description authHelper 
+ * This module defines some functions that deal with the database.
+ * 
+ * @imports
+ * import jwtAuthentication for generate token
+ * import UserModel 
+ * import UserDataInterface 
+ * 
+ * @instance
+ * create an instance of the jwtAuthentication (jwtTokens)
+ * 
+ * @exports
+ * Export the authHelper
+ */
+
+
+
+
 import jwtAuthentication from "../middleware/jwt";
 import UserModel from "../database/model/userModel";
 import { UserDataInterface } from "../types/userData";

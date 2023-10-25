@@ -1,7 +1,21 @@
+/**
+ * @description userHelper
+ * This module defines some functions that deal with the database.
+ *
+ * @imports
+ * import UserPDFsModel and PdfModel from database models
+ * import PDFDocument from pdf-lib library
+ *
+ * @exports
+ * Export the userHelper module
+ *
+ */
+
 import UserPDFsModel, { PdfModel } from "../database/model/pdfModel";
 import { PDFDocument } from "pdf-lib";
 
 const userHelper = () => {
+  //this function takes the file and userId and store it in the db
   const uploadPdf = async (req: any, userId: string) => {
     let user = await UserPDFsModel.findOne({ userId });
 
@@ -26,8 +40,8 @@ const userHelper = () => {
     return pdfId;
   };
 
+  //getPDF function return the PDF object
   const getPDF = async (userId: string, pdfId: string) => {
-    
     const user = await UserPDFsModel.findOne({ userId });
     if (!user) {
       return "User not found";
@@ -40,6 +54,7 @@ const userHelper = () => {
     return pdf;
   };
 
+  //getPages function create a new pdf with the given pages and return
   const getPages = async (userId: string, pdfId: string, pages: any) => {
     const user = await UserPDFsModel.findOne({ userId });
     if (!user) {

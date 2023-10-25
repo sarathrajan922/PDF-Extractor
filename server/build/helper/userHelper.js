@@ -1,4 +1,16 @@
 "use strict";
+/**
+ * @description userHelper
+ * This module defines some functions that deal with the database.
+ *
+ * @imports
+ * import UserPDFsModel and PdfModel from database models
+ * import PDFDocument from pdf-lib library
+ *
+ * @exports
+ * Export the userHelper module
+ *
+ */
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -35,6 +47,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const pdfModel_1 = __importStar(require("../database/model/pdfModel"));
 const pdf_lib_1 = require("pdf-lib");
 const userHelper = () => {
+    //this function takes the file and userId and store it in the db
     const uploadPdf = (req, userId) => __awaiter(void 0, void 0, void 0, function* () {
         var _a;
         let user = yield pdfModel_1.default.findOne({ userId });
@@ -54,6 +67,7 @@ const userHelper = () => {
         yield user.save();
         return pdfId;
     });
+    //getPDF function return the PDF object
     const getPDF = (userId, pdfId) => __awaiter(void 0, void 0, void 0, function* () {
         const user = yield pdfModel_1.default.findOne({ userId });
         if (!user) {
@@ -66,6 +80,7 @@ const userHelper = () => {
         }
         return pdf;
     });
+    //getPages function create a new pdf with the given pages and return
     const getPages = (userId, pdfId, pages) => __awaiter(void 0, void 0, void 0, function* () {
         const user = yield pdfModel_1.default.findOne({ userId });
         if (!user) {

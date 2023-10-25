@@ -9,37 +9,37 @@ import Contact from "./components/pages/Contact";
 import Service from "./components/pages/Service";
 
 const AppRouter = createBrowserRouter([
-    {
-        path: '/',
-        element: <App/>,
-        errorElement: <Error/>,
-        children: [
-            {
-                path:'/',
-                element: <Login/>
-            },
-            {
-                path:'upload',
-                element:<Upload/>
-            },
-            {
-                path:'editor/:id',
-                element: <Editor/>
-            },
-            {
-                path:'about',
-                element: <About/>
-            },
-            {
-                path:'contact',
-                element: <Contact/>
-            },
-            {
-                path:'service',
-                element: <Service/>
-            }
-        ]
-    }
+  {
+    path: "/",
+    element: <App />,
+    errorElement: <Error />,
+    children: [
+      {
+        path: "/",
+        element: <Login />,
+      },
+      {
+        path: "upload",
+        element: <Upload />,
+      },
+      {
+        path: "editor/:id",
+        element: <Editor />,
+      },
+      {
+        path: "about",
+        element: <About />,
+      },
+      {
+        path: "contact",
+        element: <Contact />,
+      },
+      {
+        path: "service",
+        element: <Service />,
+      },
+    ],
+  },
 ]);
 
 export default AppRouter;
