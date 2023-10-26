@@ -16,7 +16,7 @@ const Error: React.FC = () => {
               Please make sure you've entered a valid web address{" "}
               <span className="text-red-400">{url}</span> and try again.
             </p>
-            <Link to="/" className="btn border-t-indigo-500 text-blue-500">
+            <Link to="/upload" className="btn border-t-indigo-500 text-blue-500">
               Home
             </Link>
           </div>

@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { notify } from "../common/toast";
 import { useNavigate } from "react-router-dom";
 
-
 //validation schema for form validation
 const validationSchema = Yup.object().shape({
   name: Yup.string()
@@ -28,11 +27,12 @@ const Login: React.FC = () => {
       const token = window.localStorage.getItem("userToken");
       setIsLogin(true);
       if (token) {
+        setIsLogin(true);
         navigate("/upload");
       }
     };
     isLoginCheck();
-  });
+  }, []);
 
   const initialValues: UserFormDataInterface = {
     name: "",
@@ -60,10 +60,7 @@ const Login: React.FC = () => {
   };
   return !isLogin ? (
     <div className=" w-full flex justify-center  h-full ">
-      <div className="py-52">
-       
-        Loading....
-      </div>
+      <div className="py-52">Loading....</div>
     </div>
   ) : (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
