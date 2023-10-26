@@ -62,6 +62,10 @@ Please refer to the respective documentation for more details about these depend
 
 If you'd like to contribute to this project or report issues, please check the project's GitHub repository for more information.
 
+## API Documentation
+
+https://documenter.getpostman.com/view/27953195/2s9YRFTp4w 
+
 ## ScreenShots
 
 https://drive.google.com/drive/folders/1fLJgQZbUuLsOIOcUgPmyQQZvviTyvy4Q?usp=sharing 
