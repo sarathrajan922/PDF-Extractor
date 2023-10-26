@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { uploadPDF } from "../../features/axios/api/userUploadPDF";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -36,8 +36,8 @@ const Upload: React.FC = () => {
               navigate(`/editor/${response.pdfId}`);
             }, 1500);
           })
-          .catch((error) =>{
-            notify('err',error.message);
+          .catch((error) => {
+            notify("err", error.message);
             setLoader(false);
           });
       }

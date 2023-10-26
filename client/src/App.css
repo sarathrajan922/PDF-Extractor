@@ -74,3 +74,25 @@
      transform: rotate(1turn);
   }
 }
+
+
+/* #pdf-container {
+  width: 100%; 
+  max-width: 800px; 
+  max-height: 500px; 
+  overflow: auto;
+} */
+
+#pdf-container {
+  width: 100%;
+  max-width: 100%; /* Adjust the maximum width as needed for larger screens */
+  max-height: auto; /* Remove the fixed maximum height */
+  overflow: auto;
+}
+
+/* For screens narrower than 768px (adjust as needed) */
+@media (max-width: 768px) {
+  #pdf-container {
+    max-width: 100%; /* Set the maximum width to 100% to fit mobile screens */
+  }
+}

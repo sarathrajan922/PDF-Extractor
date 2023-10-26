@@ -31,8 +31,15 @@ const Editor: React.FC = () => {
           setPdfUrl(pdfUrl);
         })
         .catch((error) => console.log(error.message));
+        
     }
   }, [id]);
+
+  useEffect(()=>{
+    renderPDF()
+  },[pdfUrl])
+
+
 
   //handleCheckboxChange function handles the checkbox changes
   const handleCheckboxChange = (value: string, isChecked: boolean) => {
@@ -43,6 +50,43 @@ const Editor: React.FC = () => {
     }
   };
 
+  const renderPDF = ()=>{
+    if(pdfUrl){
+      const loadingTask = pdfjsLib.getDocument(pdfUrl);
+  
+                loadingTask.promise
+                .then((pdf: any) => { // Use appropriate types for pdf
+                  const container = document.getElementById("pdf-container");
+  
+                  for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                    pdf.getPage(pageNum).then((page: any) => { // Use appropriate types for page
+                      const scale = window.innerWidth > 768 ? 1 : 0.7; // You can adjust the scale as needed
+                      const viewport = page.getViewport({ scale });
+                      const canvas = document.createElement("canvas");
+                      const context = canvas.getContext("2d");
+                      canvas.height = viewport.height;
+                      canvas.width = viewport.width;
+                      if (container) {
+                        container.appendChild(canvas);
+                        page.render({
+                          canvasContext: context as any, // Use appropriate types for canvasContext
+                          viewport: viewport,
+                        });
+                      }
+                    });
+                  }
+                })
+                .catch((error) => {
+                  console.error(error);
+                });
+         
+              }
+  }
+
+  
+
+
+
   //handleExtract function calls the API for creating a new PDF
   const handleExtract = () => {
     // Do further processing with the selected checkboxes
@@ -50,6 +94,8 @@ const Editor: React.FC = () => {
       setLoader(true);
       newPdf(selectedCheckboxes, id)
         .then((response) => {
+          console.log(response.data)
+          notify('success','PDF Extracted successfully')
           setLoader(false);
           const pdfDataUrl = convertBufferToPdfUrl(response.data.data);
           setPdfUrl(pdfDataUrl);
@@ -105,12 +151,13 @@ const Editor: React.FC = () => {
           <div className="rounded-md p-4 h-[35rem] shadow-2xl overflow-y-auto">
             <div>
               {pdfUrl ? (
-                <iframe
-                  src={pdfUrl}
-                  width="100%"
-                  height="500px"
-                  title="PDF Viewer"
-                />
+                // <iframe
+                //   src={pdfUrl}
+                //   width="100%"
+                //   height="500px"
+                //   title="PDF Viewer"
+                // />
+                <div id="pdf-container" ></div>
               ) : (
                 <div className="flex flex-col justify-center items-center">
                   <div className="spinner"></div>
@@ -128,11 +175,12 @@ const Editor: React.FC = () => {
           <div className="m">Please wait...</div>
         </div>
       )}
+      <ToastContainer />
       {/* Right Section */}
       {!loader && (
         <div className="w-full md:w-1/2 p-4">
           <h1 className="text-2xl font-bold mb-4 text-center">Editor</h1>
-          <div className="rounded-md p-4 flex justify-center shadow-2xl h-[35rem]">
+          <div className="rounded-md p-4 flex justify-center  h-full">
             <div>
               {pdfUrl ? (
                 <>
@@ -212,7 +260,7 @@ const Editor: React.FC = () => {
               )}
             </div>
           </div>
-          <ToastContainer />
+          
         </div>
       )}
     </div>
