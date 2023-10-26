@@ -2,6 +2,14 @@
 
 Welcome to the PDF Extract Application, a web-based tool for extracting specific pages from PDF files. This application allows users to upload PDFs, select the pages they want to extract, and then generate and download a new PDF containing only the selected pages.
 
+## Hosted on AWS
+
+The PDF Extract Application is proudly hosted on Amazon Web Services (AWS), a leading cloud computing platform. Hosting on AWS ensures scalability, reliability, and security for the application.
+
+
+https://pdf.voyago.site 
+
+
 
 # Features
 
