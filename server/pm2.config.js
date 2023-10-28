@@ -1,7 +1,7 @@
 module.exports = {
     apps: [
       {
-        name: '',
+        name: 'pdf-extract',
         script: 'build/index.js',
         env: {
           NODE_ENV: 'production', 
