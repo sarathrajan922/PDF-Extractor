@@ -72,6 +72,6 @@ https://drive.google.com/drive/folders/1fLJgQZbUuLsOIOcUgPmyQQZvviTyvy4Q?usp=sha
 
 ## Database Design
 
-https://drive.google.com/file/d/16MRSE4cqDUbwHqJUjBQRyW53QxNtx94I/view?usp=sharing 
+https://drive.google.com/file/d/14KDF18UI4b_0-L11_EzZvnBOpuehX4QG/view?usp=sharing 
 
 
