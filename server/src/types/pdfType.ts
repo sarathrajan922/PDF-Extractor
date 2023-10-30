@@ -9,5 +9,10 @@ export interface PDFInterface extends Document {
 export interface UserPdfInterface extends Document {
     userId: string;
     originalPdfs: PDFInterface[];
-    newPdfs:PDFInterface[];
+    // newPdfs:PDFInterface[];
   }
+
+export interface UserCreatedPdfInterface extends Document {
+  userId:string;
+  createdPdfs: PDFInterface[];
+}
