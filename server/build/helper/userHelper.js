@@ -4,7 +4,7 @@
  * This module defines some functions that deal with the database.
  *
  * @imports
- * import UserPDFsModel and PdfModel from database models
+ * import UserPDFsModel, PdfModel and UserCreatedPdfModel from database models
  * import PDFDocument from pdf-lib library
  *
  * @exports
@@ -52,7 +52,7 @@ const userHelper = () => {
         var _a;
         let user = yield pdfModel_1.default.findOne({ userId });
         if (!user) {
-            user = new pdfModel_1.default({ userId, originalPdfs: [], newPdfs: [] });
+            user = new pdfModel_1.default({ userId, originalPdfs: [] });
         }
         // Create a new PDF document and populate it with the uploaded file data
         const newPDF = new pdfModel_1.PdfModel({
@@ -111,14 +111,19 @@ const userHelper = () => {
         // Serialize the new PDF document to a Buffer
         const pdfBytes = Buffer.from(pdfBytesArray); // Convert the array to a Buffer
         const combinedPDF = new pdfModel_1.PdfModel({
-            name: "combined.pdf",
+            name: pdf.name,
             data: pdfBytes,
             contentType: "application/pdf",
         });
+        //check the user is exist in the userCreatedPdf collection
+        let user1 = yield pdfModel_1.UserCreatedPdfModel.findOne({ userId });
+        if (!user1) {
+            user1 = new pdfModel_1.UserCreatedPdfModel({ userId, createdPdfs: [] });
+        }
         // Push the PDF to the user's array of PDFs
-        user.newPdfs.push(combinedPDF);
+        user1.createdPdfs.push(combinedPDF);
         // Save the user with the updated PDF array
-        yield user.save();
+        yield user1.save();
         return {
             pdfBytes,
             name: pdf.name,

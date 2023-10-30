@@ -83,16 +83,34 @@
   overflow: auto;
 } */
 
-#pdf-container {
+@media (min-width: 769px) {
+  .pdf-container {
+    display: none; /* Hide the container on desktop */
+  }
+  .iframe-container {
+    display: block; /* Show the iframe on desktop */
+  }
+}
+
+/* For screens 768px and narrower (adjust as needed) */
+@media (max-width: 768px) {
+  .pdf-container {
+    display: block; /* Show the container on mobile */
+  }
+  .iframe-container {
+    display: none; /* Hide the iframe on mobile */
+  }
+}
+
+.pdf-container {
   width: 100%;
   max-width: 100%; /* Adjust the maximum width as needed for larger screens */
   max-height: auto; /* Remove the fixed maximum height */
   overflow: auto;
 }
 
-/* For screens narrower than 768px (adjust as needed) */
-@media (max-width: 768px) {
-  #pdf-container {
-    max-width: 100%; /* Set the maximum width to 100% to fit mobile screens */
-  }
+.iframe-container {
+  width: 100%;
+  height: 500px;
+  border: none; /* Remove iframe border if necessary */
 }

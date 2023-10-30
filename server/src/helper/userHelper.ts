@@ -3,7 +3,7 @@
  * This module defines some functions that deal with the database.
  *
  * @imports
- * import UserPDFsModel and PdfModel from database models
+ * import UserPDFsModel, PdfModel and UserCreatedPdfModel from database models
  * import PDFDocument from pdf-lib library
  *
  * @exports
@@ -11,7 +11,10 @@
  *
  */
 
-import UserPDFsModel, { PdfModel } from "../database/model/pdfModel";
+import UserPDFsModel, {
+  PdfModel,
+  UserCreatedPdfModel,
+} from "../database/model/pdfModel";
 import { PDFDocument } from "pdf-lib";
 
 const userHelper = () => {
@@ -20,7 +23,7 @@ const userHelper = () => {
     let user = await UserPDFsModel.findOne({ userId });
 
     if (!user) {
-      user = new UserPDFsModel({ userId, originalPdfs: [], newPdfs: [] });
+      user = new UserPDFsModel({ userId, originalPdfs: [] });
     }
 
     // Create a new PDF document and populate it with the uploaded file data
@@ -34,7 +37,6 @@ const userHelper = () => {
 
     // Push the PDF to the user's array of PDFs
     user.originalPdfs.push(newPDF);
-
     // Save the user with the updated PDF array
     await user.save();
     return pdfId;
@@ -91,16 +93,22 @@ const userHelper = () => {
     const pdfBytes = Buffer.from(pdfBytesArray); // Convert the array to a Buffer
 
     const combinedPDF = new PdfModel({
-      name: "combined.pdf",
+      name: pdf.name,
       data: pdfBytes,
       contentType: "application/pdf",
     });
 
+    //check the user is exist in the userCreatedPdf collection
+    let user1 = await UserCreatedPdfModel.findOne({ userId });
+    if (!user1) {
+      user1 = new UserCreatedPdfModel({ userId, createdPdfs: [] });
+    }
+
     // Push the PDF to the user's array of PDFs
-    user.newPdfs.push(combinedPDF);
+    user1.createdPdfs.push(combinedPDF);
 
     // Save the user with the updated PDF array
-    await user.save();
+    await user1.save();
 
     return {
       pdfBytes,
