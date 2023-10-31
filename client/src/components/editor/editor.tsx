@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as pdfjsLib from "pdfjs-dist";
 import usePdfPages from "../../features/customHooks/usePdfPages";
+import usePdfDownload from "../../features/customHooks/usePdfDownload";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useParams, useNavigate } from "react-router-dom";
@@ -159,14 +160,14 @@ const Editor: React.FC = () => {
     navigate("/upload");
   };
 
+
+  const { handleDownload } = usePdfDownload();
+ 
   //handleDownloads the pdf download request
-  const handleDownload = () => {
-    if (pdfUrl) {
-      const link = document.createElement("a");
-      link.href = pdfUrl;
-      link.download = "give_me_a_name.pdf";
-      link.click();
-    }
+  const Download = () => {
+   if(pdfUrl){
+    handleDownload(pdfUrl)
+   }
   };
 
   return (
@@ -269,7 +270,7 @@ const Editor: React.FC = () => {
                     </button>
 
                     <button
-                      onClick={handleDownload}
+                      onClick={Download}
                       className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                     >
                       Download
