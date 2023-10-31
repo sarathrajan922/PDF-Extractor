@@ -116,10 +116,35 @@ const userHelper = () => {
     };
   };
 
+
+  //get all created pdf names and id from createdPdfs collection
+  const getAllPdfsName = async(userId:string)=>{
+    const result = await UserCreatedPdfModel.aggregate([
+      {
+        $match : { userId : userId}
+      },
+      {
+        $unwind : "$createdPdfs"
+      },
+      {
+        $project: {
+          _id: 0,
+          pdfId : "$createdPdfs._id",
+          pdfName: "$createdPdfs.name"
+        }
+      }
+    
+    ]);
+
+    console.log(result)
+    return result
+  }
+
   return {
     uploadPdf,
     getPDF,
     getPages,
+    getAllPdfsName
   };
 };
 

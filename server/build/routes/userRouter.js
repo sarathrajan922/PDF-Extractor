@@ -31,4 +31,6 @@ userRouter.post('/upload-pdf', authenticationMiddleware_1.default, multer_1.defa
 userRouter.get('/get-pdf/:pdfId', authenticationMiddleware_1.default, controller.getPdf);
 // Route for getting the pages of a specific PDF by PDF ID (Requires authentication)
 userRouter.get('/get-pages/:pdfId', authenticationMiddleware_1.default, controller.getPages);
+//Route for getting all created pdfs Names (Requires authentication)
+userRouter.get('/get-all-pdf-Names', authenticationMiddleware_1.default, controller.getAllPdfNames);
 exports.default = userRouter;

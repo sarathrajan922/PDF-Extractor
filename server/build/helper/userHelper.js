@@ -129,10 +129,31 @@ const userHelper = () => {
             name: pdf.name,
         };
     });
+    //get all created pdf names and id from createdPdfs collection
+    const getAllPdfsName = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+        const result = yield pdfModel_1.UserCreatedPdfModel.aggregate([
+            {
+                $match: { userId: userId }
+            },
+            {
+                $unwind: "$createdPdfs"
+            },
+            {
+                $project: {
+                    _id: 0,
+                    pdfId: "$createdPdfs._id",
+                    pdfName: "$createdPdfs.name"
+                }
+            }
+        ]);
+        console.log(result);
+        return result;
+    });
     return {
         uploadPdf,
         getPDF,
         getPages,
+        getAllPdfsName
     };
 };
 exports.default = userHelper;
