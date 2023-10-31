@@ -105,10 +105,24 @@ const userController = () => {
             }
         }
     }));
+    //Define a function for getting all pdf names
+    const getAllPdfNames = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        var _g, _h;
+        const userId = (_h = (_g = req.payload) === null || _g === void 0 ? void 0 : _g.id) !== null && _h !== void 0 ? _h : "";
+        const result = yield helper.getAllPdfsName(userId);
+        if (result) {
+            res.status(httpStatus_1.HttpStatus.OK).send({
+                status: httpStatus_1.HttpStatus.OK,
+                message: "fetch all pdfNames success",
+                data: result,
+            });
+        }
+    }));
     return {
         uploadPDF,
         getPdf,
         getPages,
+        getAllPdfNames
     };
 };
 exports.default = userController;

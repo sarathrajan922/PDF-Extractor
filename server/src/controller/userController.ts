@@ -99,10 +99,25 @@ const userController = () => {
     }
   });
 
+
+  //Define a function for getting all pdf names
+  const getAllPdfNames = asyncHandler(async(req:CustomRequest,res:Response)=>{
+    const userId = req.payload?.id ?? "";
+    const result = await helper.getAllPdfsName(userId);
+    if(result){
+      res.status(HttpStatus.OK).send({
+        status: HttpStatus.OK,
+        message: "fetch all pdfNames success",
+        data: result,
+      });
+    }
+  })
+
   return {
     uploadPDF,
     getPdf,
     getPages,
+    getAllPdfNames
   };
 };
 
