@@ -118,11 +118,26 @@ const userController = () => {
             });
         }
     }));
+    const getCreatedPdf = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        var _j, _k;
+        const userId = (_k = (_j = req.payload) === null || _j === void 0 ? void 0 : _j.id) !== null && _k !== void 0 ? _k : "";
+        const { pdfId } = req.params;
+        console.log(pdfId);
+        const result = yield helper.getCreatedPdf(userId, pdfId);
+        if (result) {
+            res.status(httpStatus_1.HttpStatus.OK).send({
+                status: httpStatus_1.HttpStatus.OK,
+                message: 'fetch created pdf success',
+                data: result
+            });
+        }
+    }));
     return {
         uploadPDF,
         getPdf,
         getPages,
-        getAllPdfNames
+        getAllPdfNames,
+        getCreatedPdf
     };
 };
 exports.default = userController;

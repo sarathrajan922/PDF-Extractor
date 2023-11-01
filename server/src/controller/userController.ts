@@ -113,11 +113,27 @@ const userController = () => {
     }
   })
 
+
+  const getCreatedPdf = asyncHandler(async(req:CustomRequest,res:Response)=>{
+    const userId = req.payload?.id ?? "";
+    const {pdfId }= req.params
+    console.log(pdfId)
+    const result = await helper.getCreatedPdf(userId,pdfId)
+    if(result){
+      res.status(HttpStatus.OK).send({
+        status: HttpStatus.OK,
+        message: 'fetch created pdf success',
+        data : result
+      })
+    }
+  })
+
   return {
     uploadPDF,
     getPdf,
     getPages,
-    getAllPdfNames
+    getAllPdfNames,
+    getCreatedPdf
   };
 };
 
