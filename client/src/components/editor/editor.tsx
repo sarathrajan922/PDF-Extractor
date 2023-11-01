@@ -48,38 +48,7 @@ const Editor: React.FC = () => {
     }
   };
 
-  // const renderPDF = ()=>{
-  //   if(pdfUrl){
-  //     const loadingTask = pdfjsLib.getDocument(pdfUrl);
 
-  //               loadingTask.promise
-  //               .then((pdf: any) => { // Use appropriate types for pdf
-  //                 const container = document.getElementsByClassName("pdf-container");
-
-  //                 for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-  //                   pdf.getPage(pageNum).then((page: any) => { // Use appropriate types for page
-  //                     const scale = window.innerWidth > 768 ? 1 : 0.7; // You can adjust the scale as needed
-  //                     const viewport = page.getViewport({ scale });
-  //                     const canvas = document.createElement("canvas");
-  //                     const context = canvas.getContext("2d");
-  //                     canvas.height = viewport.height;
-  //                     canvas.width = viewport.width;
-  //                     if (container) {
-  //                       container.appendChild(canvas);
-  //                       page.render({
-  //                         canvasContext: context as any, // Use appropriate types for canvasContext
-  //                         viewport: viewport,
-  //                       });
-  //                     }
-  //                   });
-  //                 }
-  //               })
-  //               .catch((error) => {
-  //                 console.error(error);
-  //               });
-
-  //             }
-  // }
 
   const renderPDF = () => {
     if (pdfUrl) {

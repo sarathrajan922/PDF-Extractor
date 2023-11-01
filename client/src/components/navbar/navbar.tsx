@@ -4,6 +4,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate, Link } from "react-router-dom";
 const navigation = [
   { name: "Home", to: "/", current: true },
+  { name: "My Files", to: 'list', current : true},
   { name: "About", to: "about", current: false },
   { name: "Services", to: "service", current: false },
   { name: "Contact", to: "contact", current: false },

@@ -7,6 +7,7 @@ import Editor from "./components/editor/editor";
 import About from "./components/pages/About";
 import Contact from "./components/pages/Contact";
 import Service from "./components/pages/Service";
+import PDFList from "./components/PDF List/pdfList";
 
 const AppRouter = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const AppRouter = createBrowserRouter([
         path: "service",
         element: <Service />,
       },
+      {
+        path: "list",
+        element: <PDFList/>
+      }
     ],
   },
 ]);
