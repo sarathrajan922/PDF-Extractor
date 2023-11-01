@@ -33,6 +33,8 @@ userRouter.get('/get-pdf/:pdfId',authenticationMiddleware,controller.getPdf);
 userRouter.get('/get-pages/:pdfId',authenticationMiddleware,controller.getPages);
 //Route for getting all created pdfs Names (Requires authentication)
 userRouter.get('/get-all-pdf-Names',authenticationMiddleware,controller.getAllPdfNames);
+//Route for getting the created PDF by PDF ID (Requires authentication)
+userRouter.get('/get-createdPdf/:pdfId',authenticationMiddleware,controller.getCreatedPdf)
 
 
 export default userRouter;

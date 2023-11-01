@@ -11,6 +11,7 @@
  *
  */
 
+import { ObjectId } from "mongodb";
 import UserPDFsModel, {
   PdfModel,
   UserCreatedPdfModel,
@@ -116,35 +117,49 @@ const userHelper = () => {
     };
   };
 
-
   //get all created pdf names and id from createdPdfs collection
-  const getAllPdfsName = async(userId:string)=>{
+  const getAllPdfsName = async (userId: string) => {
     const result = await UserCreatedPdfModel.aggregate([
       {
-        $match : { userId : userId}
+        $match: { userId: userId },
       },
       {
-        $unwind : "$createdPdfs"
+        $unwind: "$createdPdfs",
       },
       {
         $project: {
           _id: 0,
-          pdfId : "$createdPdfs._id",
-          pdfName: "$createdPdfs.name"
-        }
-      }
-    
+          pdfId: "$createdPdfs._id",
+          pdfName: "$createdPdfs.name",
+        },
+      },
     ]);
 
-    console.log(result)
-    return result
-  }
+    return result;
+  };
+
+  //getCreatedPdf function return the pdf data
+  const getCreatedPdf = async (userId: string, pdfId: string) => {
+    //find user
+    const user = await UserCreatedPdfModel.findOne({ userId });
+    if (!user) {
+      return "User Not found!";
+    }
+    //find pdf
+    const pdf = user.createdPdfs.id(pdfId);
+    if (!pdf) {
+      return "Pdf Not found!";
+    }
+
+    return pdf;
+  };
 
   return {
     uploadPdf,
     getPDF,
     getPages,
-    getAllPdfsName
+    getAllPdfsName,
+    getCreatedPdf,
   };
 };
 

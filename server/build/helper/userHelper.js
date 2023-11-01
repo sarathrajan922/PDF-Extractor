@@ -133,27 +133,41 @@ const userHelper = () => {
     const getAllPdfsName = (userId) => __awaiter(void 0, void 0, void 0, function* () {
         const result = yield pdfModel_1.UserCreatedPdfModel.aggregate([
             {
-                $match: { userId: userId }
+                $match: { userId: userId },
             },
             {
-                $unwind: "$createdPdfs"
+                $unwind: "$createdPdfs",
             },
             {
                 $project: {
                     _id: 0,
                     pdfId: "$createdPdfs._id",
-                    pdfName: "$createdPdfs.name"
-                }
-            }
+                    pdfName: "$createdPdfs.name",
+                },
+            },
         ]);
-        console.log(result);
         return result;
+    });
+    //getCreatedPdf function return the pdf data
+    const getCreatedPdf = (userId, pdfId) => __awaiter(void 0, void 0, void 0, function* () {
+        //find user
+        const user = yield pdfModel_1.UserCreatedPdfModel.findOne({ userId });
+        if (!user) {
+            return "User Not found!";
+        }
+        //find pdf
+        const pdf = user.createdPdfs.id(pdfId);
+        if (!pdf) {
+            return "Pdf Not found!";
+        }
+        return pdf;
     });
     return {
         uploadPdf,
         getPDF,
         getPages,
-        getAllPdfsName
+        getAllPdfsName,
+        getCreatedPdf,
     };
 };
 exports.default = userHelper;
