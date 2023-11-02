@@ -7,6 +7,6 @@ export const urls = {
   USER_GET_CREATED_PDF : "user/get-createdPdf/"
 };
 
-const BASE_URL = "http://localhost:8000/api/";
-// const BASE_URL = "https://pdf.voyago.site/api/";
+// const BASE_URL = "http://localhost:8000/api/";
+const BASE_URL = "https://pdf.voyago.site/api/";
 export default BASE_URL;
