@@ -8,6 +8,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getPDF } from "../../features/axios/api/userGetPdf";
 import { newPdf } from "../../features/axios/api/userGetNewPdf";
 import { notify } from "../common/toast";
+import usePdfBufferToUrl from "../../features/customHooks/usePdfBufferToURL";
 pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 
 const Editor: React.FC = () => {
@@ -20,6 +21,7 @@ const Editor: React.FC = () => {
   const navigate = useNavigate();
   const [err, setErr] = useState<boolean>(false);
   const [pdfUrl, setPdfUrl] = useState<any>(null);
+  const { url, convertBufferToPdfUrl } = usePdfBufferToUrl();
   useEffect(() => {
     if (id) {
       getPDF(id)
@@ -47,8 +49,6 @@ const Editor: React.FC = () => {
       setSelectedCheckboxes((prev) => prev.filter((item) => item !== value));
     }
   };
-
-
 
   const renderPDF = () => {
     if (pdfUrl) {
@@ -93,8 +93,8 @@ const Editor: React.FC = () => {
           console.log(response.data);
           notify("success", "PDF Extracted successfully");
           setLoader(false);
-          const pdfDataUrl = convertBufferToPdfUrl(response.data.data);
-          setPdfUrl(pdfDataUrl);
+          convertBufferToPdfUrl(response.data.data);
+          setPdfUrl(url);
         })
         .catch((error) => {
           notify("err", error.message);
@@ -117,26 +117,17 @@ const Editor: React.FC = () => {
     setNumPages(pages);
   }, [pages, pdfUrl]);
 
-  //this function convertBuffer Data of a pdf into pdfUrl string
-  const convertBufferToPdfUrl = (buffer: number[]): string => {
-    const uint8Array = new Uint8Array(buffer);
-    const blob = new Blob([uint8Array], { type: "application/pdf" });
-    const url = URL.createObjectURL(blob);
-    return url;
-  };
-
   const chooseAnother = () => {
     navigate("/upload");
   };
 
-
   const { handleDownload } = usePdfDownload();
- 
+
   //handleDownloads the pdf download request
   const Download = () => {
-   if(pdfUrl){
-    handleDownload(pdfUrl)
-   }
+    if (pdfUrl) {
+      handleDownload(pdfUrl);
+    }
   };
 
   return (
