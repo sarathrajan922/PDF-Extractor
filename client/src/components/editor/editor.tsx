@@ -27,11 +27,12 @@ const Editor: React.FC = () => {
       getPDF(id)
         .then((response) => {
           // Convert the binary data to Blob or Uint8Array, create a URL
-          const binaryData = response.data.data; //  binary data
-          const uint8Array = new Uint8Array(binaryData);
-          const blob = new Blob([uint8Array], { type: "application/pdf" });
-          const pdfUrl = URL.createObjectURL(blob);
-          setPdfUrl(pdfUrl);
+          // const binaryData = response.data.data; //  binary data
+          // const uint8Array = new Uint8Array(binaryData);
+          // const blob = new Blob([uint8Array], { type: "application/pdf" });
+          // const pdfUrl = URL.createObjectURL(blob);
+          convertBufferToPdfUrl(response.data.data)
+          setPdfUrl(url);
         })
         .catch((error) => console.log(error.message));
     }
@@ -40,6 +41,8 @@ const Editor: React.FC = () => {
   useEffect(() => {
     renderPDF();
   }, [pdfUrl]);
+
+  console.log(url)
 
   //handleCheckboxChange function handles the checkbox changes
   const handleCheckboxChange = (value: string, isChecked: boolean) => {
@@ -92,8 +95,10 @@ const Editor: React.FC = () => {
         .then((response) => {
           console.log(response.data);
           notify("success", "PDF Extracted successfully");
-          setLoader(false);
+          console.log(url)
           convertBufferToPdfUrl(response.data.data);
+          console.log(url)
+          setLoader(false);
           setPdfUrl(url);
         })
         .catch((error) => {
@@ -101,14 +106,17 @@ const Editor: React.FC = () => {
           setTimeout(() => {
             window.location.reload();
           }, 1500);
-        });
+        }); 
     } else {
       setErr(true);
       setTimeout(() => {
         setErr(false);
       }, 6000);
+
     }
   };
+
+
 
   //usePdfPages Hook return the number of pages inside the pdf
   const pages = usePdfPages(pdfUrl);
