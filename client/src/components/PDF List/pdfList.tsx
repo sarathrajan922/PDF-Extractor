@@ -14,7 +14,7 @@ const PDFList: React.FC = () => {
   useEffect(() => {
     userGetAllCreatedPdfsNames()
       .then((response) => {
-        setPdfList(response.data);
+        setPdfList(response.data.reverse());
         setIsLoad(true);
       })
       .catch((error) => {
